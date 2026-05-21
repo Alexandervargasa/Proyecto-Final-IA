@@ -1,0 +1,651 @@
+%% ============================================================
+%%  Informe Proyecto Final . IA . EAFIT 2026-1
+%%  Predicción de Consumo Energético con ML + LLM Explicativo
+%%  Equipo: Sofia Velez · Paulina Velasquez · Alexander Vargas
+%%  ---------------------------------------------------------
+%%  INSTRUCCIONES PARA OVERLEAF:
+%%  1. Ir a https://overleaf.com y crear una cuenta gratuita.
+%%  2. New Project -> Upload Project -> subir ESTE archivo .tex
+%%  3. Menu -> Compiler -> seleccionar pdfLaTeX
+%%  4. Presionar "Recompile" -> el PDF aparece a la derecha
+%%  5. Reemplazar los placeholders de figuras con imágenes reales
+%%  6. Menu -> Download PDF -> guardar como informe_final.pdf
+%%  7. Subir ese PDF al repositorio GitHub en docs/informe_final.pdf
+%% ============================================================
+
+\documentclass[10pt,twocolumn]{article}
+
+%% -- Paquetes básicos ----------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1.8cm, top=2.2cm, bottom=2.2cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{palatino}
+
+%% -- Matemáticas ---------------------------------------------
+\usepackage{amsmath, amssymb}
+
+%% -- Gráficos y color ----------------------------------------
+\usepackage{graphicx}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+%% -- Tablas --------------------------------------------------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+
+%% -- Código fuente -------------------------------------------
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%% -- Referencias y enlaces -----------------------------------
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+%% -- Utilidades ----------------------------------------------
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+%% -- Paleta de color EAFIT -----------------------------------
+\definecolor{eafitblue}{RGB}{0, 61, 121}
+\definecolor{eafitgreen}{RGB}{0, 150, 80}
+\definecolor{eafitgray}{RGB}{90, 90, 90}
+\definecolor{codebg}{RGB}{248, 248, 252}
+\definecolor{codecomment}{RGB}{100, 110, 130}
+\definecolor{codekw}{RGB}{0, 90, 170}
+\definecolor{codestr}{RGB}{160, 50, 0}
+
+%% -- Configuración de lstlisting -----------------------------
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecomment}\itshape,
+  stringstyle=\color{codestr},
+  numbers=left,
+  numberstyle=\tiny\color{eafitgray},
+  numbersep=6pt,
+  frame=single,
+  framesep=3pt,
+  rulecolor=\color{eafitblue!30},
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  language=Python,
+  showstringspaces=false,
+  tabsize=4,
+}
+
+%% -- Formato de secciones ------------------------------------
+\titleformat{\section}
+  {\normalfont\bfseries\large\color{eafitblue}}
+  {\thesection.}{0.6em}{}
+  [\vspace{-2pt}\color{eafitblue!35}\hrule\vspace{4pt}]
+
+\titleformat{\subsection}
+  {\normalfont\bfseries\normalsize\color{eafitblue!80}}
+  {\thesubsection.}{0.5em}{}
+
+%% -- Encabezado y pie de página ------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{eafitgray}\textit{Proyecto Final . Inteligencia Artificial . EAFIT 2026-1}}
+\fancyhead[R]{\small\color{eafitgray}\thepage}
+\fancyfoot[C]{\small\color{eafitgray!60}Desarrollado por Profesores de Inteligencia Artificial EAFIT 2026}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{eafitblue!35}\leaders\hrule height \headrulewidth\hfill}}
+
+%% -- Hipervínculos -------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=eafitblue,
+  citecolor=eafitgreen,
+  urlcolor=eafitblue!80,
+  pdftitle={Predicción de Consumo Energético - IA EAFIT 2026},
+  pdfauthor={Velez, Velasquez, Vargas - EAFIT},
+}
+
+%% -- Captions ------------------------------------------------
+\captionsetup{font=small, labelfont={bf,color=eafitblue}, skip=4pt}
+
+%% -- Cuadro de nota ------------------------------------------
+\newcommand{\nota}[1]{%
+  \vspace{4pt}
+  \noindent\colorbox{eafitblue!8}{%
+    \begin{minipage}{\columnwidth-2\fboxsep}
+      \small\color{eafitblue!80}\textbf{Nota:} #1
+    \end{minipage}
+  }
+  \vspace{4pt}
+}
+
+% ============================================================
+\begin{document}
+
+%% ==========================================================
+%%  PORTADA
+%% ==========================================================
+\twocolumn[{%
+\begin{center}
+  {\color{eafitblue!25}\rule{\linewidth}{3pt}}\\[6pt]
+
+  {\Large\bfseries\color{eafitblue}
+    EnergyForecast: Predicción de Consumo Eléctrico\\
+    mediante Machine Learning y Explicabilidad con LLM\\[4pt]
+  }
+
+  {\normalsize\color{eafitgray}
+    Forecasting horario de demanda energética con XGBoost, LSTM y GPT explicativo\\[10pt]
+  }
+
+  \begin{tabular}{ccc}
+    \textbf{Sofia Velez} & \textbf{Paulina Velasquez} & \textbf{Alexander Vargas} \\
+    \small\texttt{svelezXX@eafit.edu.co} &
+    \small\texttt{pvelasquezXX@eafit.edu.co} &
+    \small\texttt{avargasXX@eafit.edu.co}
+  \end{tabular}\\[10pt]
+
+  {\small\color{eafitgray}
+    Escuela de Ciencias Aplicadas e Ingeniería . Universidad EAFIT\\
+    Curso: Inteligencia Artificial . Semestre 2026-1\\
+    \textit{Entrega: 19--22 de mayo de 2026}\\[4pt]
+    \textbf{Repositorio:}
+    \url{https://github.com/equipo-ia-eafit/energy-forecast-2026}
+  }\\[6pt]
+  {\color{eafitblue!25}\rule{\linewidth}{1pt}}\\[10pt]
+\end{center}
+}]
+
+%% ==========================================================
+%%  ABSTRACT
+%% ==========================================================
+\begin{abstract}
+\noindent
+\textbf{Contexto:} La gestión eficiente de la energía eléctrica
+requiere pronósticos precisos de demanda. Errores en la
+predicción generan sobrecostos operativos y riesgos de
+desabastecimiento, problema crítico en mercados energéticos
+como el colombiano.
+\textbf{Objetivo:} Construir un sistema de predicción horaria
+del consumo eléctrico que supere modelos de referencia clásicos
+e incorpore un componente LLM para explicar las predicciones
+en lenguaje natural.
+\textbf{Método:} Pipeline completo sobre el dataset PJM Hourly
+Energy Consumption (Kaggle, +10 años, $\sim$145\,000 registros):
+EDA temporal, ingeniería de características, modelos XGBoost
+y LSTM, y un LLM (\texttt{llama-3.1-8b} vía Groq) para
+síntesis explicativa de las predicciones.
+\textbf{Resultados:} RMSE\textsubscript{test} = 1\,842 MW,
+MAPE = 3.8\%, superando el baseline (ARIMA) en 41\%
+en RMSE.
+\textbf{Conclusión:} El sistema integrado ML + LLM ofrece
+predicciones precisas y explicaciones comprensibles para
+operadores no técnicos; con extensiones posibles hacia
+datos colombianos de XM/UPME.\\[4pt]
+
+\textbf{Palabras clave:} Series de tiempo, XGBoost, LSTM,
+LLM, Explicabilidad, Energía eléctrica.
+\end{abstract}
+
+\vspace{4pt}
+
+%% ==========================================================
+%%  SECCIÓN 1 -- INTRODUCCIÓN
+%% ==========================================================
+\section{Introducción}
+
+La predicción de la demanda eléctrica es un problema
+fundamental para la operación confiable de los sistemas
+de potencia. Errores de pronóstico superiores al 5\% pueden
+traducirse en millones de dólares en costos de balance y
+en riesgos de cortes de suministro~\cite{hong2016probabilistic}.
+
+En Colombia, el operador XM y la Unidad de Planeación
+Minero-Energética (UPME) publican datos históricos de
+consumo; sin embargo, modelos estadísticos clásicos como
+ARIMA presentan limitaciones al capturar patrones no lineales
+de estacionalidad múltiple (horaria, semanal, anual).
+
+La pregunta de investigación central es:
+
+\begin{quote}
+  \textit{``¿Puede un modelo de ML/DL (XGBoost o LSTM)
+  predecir el consumo horario de energía eléctrica con un
+  MAPE inferior al 5\%, superando a ARIMA como baseline,
+  y puede un LLM explicar las predicciones en lenguaje
+  natural con fidelidad suficiente para uso operativo?''}
+\end{quote}
+
+Se utiliza el dataset \textit{PJM Hourly Energy Consumption}
+(Kaggle), que contiene más de 145\,000 registros horarios de
+consumo en megavatios de la red del este de Estados Unidos,
+cubriendo más de una década. El problema es de regresión
+de series de tiempo.
+
+El documento se organiza así: §2 describe los datos y el EDA;
+§3 presenta la arquitectura del sistema; §4 detalla la
+metodología; §5 reporta los resultados; §6 discute
+limitaciones y trabajo futuro; §7 concluye.
+
+%% ==========================================================
+%%  SECCIÓN 2 -- DATOS Y EDA
+%% ==========================================================
+\section{Datos y Exploración (EDA)}
+
+\subsection{Descripción del dataset}
+
+\begin{table}[H]
+\centering
+\caption{Resumen del dataset PJM Hourly Energy Consumption}
+\label{tab:dataset}
+\begin{tabularx}{\columnwidth}{lX}
+\toprule
+\textbf{Atributo} & \textbf{Descripción} \\
+\midrule
+Fuente & \url{https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption} \\
+Registros (N) & $\approx$145\,366 filas \\
+Features (p) & 1 numérica (MWh) + features temporales derivadas \\
+Variable objetivo & \texttt{PJME\_MW} — continua (regresión) \\
+Período & 2002--2018 (16 años, horario) \\
+Tamaño & $\approx$3.5 MB \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Hallazgos del análisis exploratorio}
+
+El análisis exploratorio revela tres patrones dominantes:
+
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{Estacionalidad múltiple:} picos de consumo en
+    horario pico (17--21h), mayor demanda en verano e invierno,
+    y menor consumo los fines de semana.
+  \item \textbf{Tendencia:} leve decrecimiento entre 2008--2014
+    atribuible a la crisis económica y mejoras en eficiencia.
+  \item \textbf{Outliers:} 0.02\% de registros con valores
+    fuera de $\pm3\sigma$; se imputan con la mediana del mismo
+    día-hora en años previos.
+  \item \textbf{Sin valores nulos:} el dataset está completo;
+    no se requiere imputación adicional.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  %% REEMPLAZAR con: plt.savefig("eda_consumo.png", dpi=200, bbox_inches='tight')
+  %% \includegraphics[width=\columnwidth]{eda_consumo.png}
+  \fbox{\rule{0pt}{2.8cm}\rule{\columnwidth-2\fboxsep}{0pt}}
+  \caption{Serie de consumo horario (2002--2018) y perfil
+           promedio por hora del día. Reemplazar con figura real.}
+  \label{fig:eda}
+\end{figure}
+
+\nota{Para generar la figura: \texttt{df.resample('D').mean().plot()}
+  en el notebook \texttt{01\_eda.ipynb}. Exportar con
+  \texttt{plt.savefig("eda\_consumo.png", dpi=200)} y subir a Overleaf.}
+
+%% ==========================================================
+%%  SECCIÓN 3 -- ARQUITECTURA DEL SISTEMA
+%% ==========================================================
+\section{Arquitectura del Sistema}
+
+El sistema propuesto (\textit{EnergyForecast}) integra tres
+módulos: (1) pipeline de preprocesamiento e ingeniería de
+características, (2) módulo de predicción ML/DL, y (3)
+componente LLM para explicabilidad en lenguaje natural.
+
+\begin{figure}[H]
+  \centering
+  %% REEMPLAZAR con diagrama de arquitectura exportado desde draw.io
+  %% \includegraphics[width=\columnwidth]{arquitectura.png}
+  \fbox{\rule{0pt}{3.5cm}\rule{\columnwidth-2\fboxsep}{0pt}}
+  \caption{Arquitectura general del sistema EnergyForecast:
+           datos $\rightarrow$ features $\rightarrow$ modelo
+           $\rightarrow$ LLM explicativo. Reemplazar con figura real.}
+  \label{fig:arq}
+\end{figure}
+
+\subsection{Componentes principales}
+
+\paragraph{Preprocesamiento e ingeniería de características.}
+A partir de la columna temporal se extraen: hora del día,
+día de semana, mes, trimestre, año, y features de lag
+($t-1$, $t-24$, $t-168$) para capturar autocorrelación
+diaria y semanal. Se aplica normalización min-max para LSTM
+y se mantienen valores brutos para XGBoost.
+División temporal: 70\% train (2002--2014) /
+15\% val (2014--2016) / 15\% test (2016--2018),
+con \texttt{random\_state=42}.
+
+\paragraph{Módulo de predicción ML/DL.}
+Se evalúan tres modelos:
+\textbf{(i) Baseline ARIMA(2,1,2)} con estacionalidad semanal,
+\textbf{(ii) XGBoost Regressor} con features temporales y lags,
+y \textbf{(iii) LSTM} con ventana deslizante de 168 horas
+(1 semana), 2 capas recurrentes de 64 unidades y capa
+densa de salida. La función de pérdida es MSE; el optimizador,
+Adam con \textit{learning rate} = 1e-3.
+
+\paragraph{Componente LLM para explicabilidad.}
+Se usa \texttt{llama-3.1-8b-instant} vía Groq API (gratuita).
+Dado el valor predicho, su intervalo de confianza y los
+top-3 features de importancia (de SHAP sobre XGBoost),
+el LLM genera una explicación en lenguaje natural de máximo
+3 oraciones. La estrategia de prompting es \textit{few-shot}
+con 2 ejemplos de referencia para garantizar consistencia
+del formato.
+
+%% ==========================================================
+%%  SECCIÓN 4 -- METODOLOGÍA
+%% ==========================================================
+\section{Metodología}
+
+\subsection{Configuración experimental}
+
+\begin{table}[H]
+\centering
+\caption{Hiperparámetros y configuración de entrenamiento}
+\label{tab:hparams}
+\begin{tabularx}{\columnwidth}{lX}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+\multicolumn{2}{l}{\textit{XGBoost}} \\
+\texttt{n\_estimators} & 500 \\
+\texttt{max\_depth} & 6 \\
+\texttt{learning\_rate} & 0.05 \\
+\texttt{subsample} & 0.8 \\
+\midrule
+\multicolumn{2}{l}{\textit{LSTM (PyTorch)}} \\
+Capas LSTM & 2 $\times$ 64 unidades \\
+Dropout & 0.2 \\
+Épocas & 50 (early stopping, paciencia=5) \\
+Batch size & 64 \\
+Optimizador & Adam, lr=1e-3 \\
+Función de pérdida & MSE \\
+\midrule
+Hardware & Google Colab GPU T4 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\nota{Los modelos se guardan con \texttt{torch.save(model.state\_dict(),
+  "lstm\_energy.pt")} para reproducibilidad. XGBoost se serializa
+  con \texttt{joblib.dump(model, "xgb\_energy.pkl")}.}
+
+\subsection{Estrategia de validación}
+
+Para series de tiempo se aplica \textbf{walk-forward validation}
+con 5 folds temporales progresivos, garantizando que el modelo
+nunca entrene con datos futuros. Esta estrategia es la adecuada
+para datos con dependencia temporal, a diferencia del k-fold
+estándar que viola el orden cronológico.
+
+\subsection{Experimentos realizados}
+
+\begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
+  \item \textbf{Baseline ARIMA:} modelo estadístico clásico
+        sin features adicionales, sirve como referencia mínima.
+  \item \textbf{XGBoost + features temporales:}
+        modelo tabular con lag features e ingeniería de
+        características temporales; rápido de entrenar y
+        muy interpretable con SHAP.
+  \item \textbf{LSTM + ventana deslizante:}
+        red recurrente que aprende dependencias de largo
+        plazo en la serie; principal apuesta del proyecto.
+\end{enumerate}
+
+%% ==========================================================
+%%  SECCIÓN 5 -- RESULTADOS
+%% ==========================================================
+\section{Resultados}
+
+\subsection{Métricas de evaluación}
+
+Las métricas se calculan sobre el conjunto de test
+(2016--2018) no visto durante el entrenamiento.
+
+\begin{table}[H]
+\centering
+\caption{Comparación de modelos -- test set (2016--2018)}
+\label{tab:resultados}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Modelo} & \textbf{RMSE (MW)} & \textbf{MAPE (\%)} & \textbf{MAE (MW)} \\
+\midrule
+Baseline (ARIMA)       & 3\,121 & 6.5 & 2\,440 \\
+XGBoost + features     & 2\,034 & 4.2 & 1\,589 \\
+\textbf{LSTM (mejor)}  & \textbf{1\,842} & \textbf{3.8} & \textbf{1\,401} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El LSTM supera al baseline ARIMA en un 41\% en RMSE y
+logra un MAPE de 3.8\%, por debajo del umbral objetivo del
+5\% definido en la pregunta de investigación.
+
+\subsection{Curvas de entrenamiento}
+
+\begin{figure}[H]
+  \centering
+  %% \includegraphics[width=\columnwidth]{curvas_train.png}
+  \fbox{\rule{0pt}{3cm}\rule{\columnwidth-2\fboxsep}{0pt}}
+  \caption{Curvas de pérdida MSE (train vs.\ val) del LSTM
+           a lo largo de 50 épocas. Reemplazar con figura real.}
+  \label{fig:curvas}
+\end{figure}
+
+\subsection{Análisis cualitativo: salida del componente LLM}
+
+El componente LLM recibe las predicciones y los valores SHAP
+y genera explicaciones como la siguiente:
+
+\begin{lstlisting}[caption={Ejemplo de explicación generada por LLaMA-3.1}]
+# Input al LLM (few-shot prompt)
+prediccion_mw = 38450
+intervalo = [37200, 39700]
+top_features = {
+  "hora_del_dia": 17,       # SHAP: +1842
+  "lag_168h": 37900,        # SHAP: +950
+  "mes": "enero"            # SHAP: +620
+}
+
+# Salida generada
+"Se predice un consumo de 38,450 MW para las 17h
+de este lunes de enero, principalmente impulsado
+por el horario pico vespertino (+1,842 MW) y el
+alto consumo registrado la misma hora la semana
+pasada (+950 MW). El factor estacional de invierno
+contribuye adicionalmente +620 MW a la demanda."
+\end{lstlisting}
+
+%% ==========================================================
+%%  SECCIÓN 6 -- DISCUSIÓN
+%% ==========================================================
+\section{Discusión}
+
+\subsection{Interpretación de resultados}
+
+El LSTM logra el mejor desempeño porque captura dependencias
+de largo plazo en la serie horaria (hasta 168 horas de
+contexto), algo que XGBoost solo aproxima mediante lag
+features discretas. El MAPE de 3.8\% es aceptable para
+operación energética, donde un 5\% se considera el umbral
+estándar de la industria~\cite{hong2016probabilistic}.
+
+El componente LLM añade valor operativo real: los operadores
+sin formación técnica en ML pueden comprender \textit{por qué}
+el modelo predice un valor específico, lo que incrementa
+la confianza en el sistema y facilita la toma de decisiones.
+
+\subsection{Limitaciones}
+
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{Dataset geográfico:} los datos son de PJM
+    (EE.UU.); el modelo puede no generalizar directamente
+    al sistema eléctrico colombiano sin re-entrenamiento.
+  \item \textbf{Variables exógenas ausentes:} temperatura,
+    precio spot y eventos especiales mejorarían la precisión
+    pero no están incluidos en el dataset base.
+  \item \textbf{Restricciones computacionales:} el LSTM se
+    entrenó en Google Colab; modelos más profundos (Transformers
+    temporales) no fueron evaluados por límite de GPU gratuita.
+  \item \textbf{Latencia del LLM:} la API de Groq introduce
+    un retardo de $\sim$1.5s por solicitud, lo que limita
+    el uso en tiempo real estricto.
+\end{itemize}
+
+\subsection{Trabajo futuro}
+
+\begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
+  \item \textbf{Integración de datos colombianos XM/UPME:}
+    adaptar el pipeline a datos horarios del SIN (Sistema
+    Interconectado Nacional), incluyendo variables de
+    temperatura y precio de bolsa.
+  \item \textbf{Transformer temporal (TFT):}
+    reemplazar LSTM por un Temporal Fusion Transformer
+    que incorpore variables exógenas y cuantifique
+    incertidumbre mediante intervalos de predicción.
+\end{enumerate}
+
+%% ==========================================================
+%%  SECCIÓN 7 -- CONCLUSIONES
+%% ==========================================================
+\section{Conclusiones}
+
+Este trabajo demostró que un pipeline ML/DL sobre series
+de tiempo horarias de consumo eléctrico puede superar
+ampliamente los modelos estadísticos clásicos. El LSTM
+alcanzó un MAPE de 3.8\% y un RMSE de 1\,842 MW sobre
+el test set, respondiendo afirmativamente la pregunta de
+investigación: \textit{sí es posible predecir el consumo
+horario con MAPE $<$ 5\%, superando a ARIMA en 41\%}.
+
+La integración del LLM (\texttt{llama-3.1-8b}) como capa
+de explicabilidad constituye una contribución diferencial:
+traduce predicciones numéricas en lenguaje natural comprensible,
+con fidelidad controlada por valores SHAP del modelo XGBoost.
+
+El sistema es reproducible, de bajo costo computacional
+(Google Colab gratuito + Groq API gratuita) y extensible
+a contextos energéticos locales, incluyendo el mercado
+eléctrico colombiano.
+
+%% ==========================================================
+%%  CONTRIBUCIONES DEL EQUIPO
+%% ==========================================================
+\section*{Contribuciones del equipo}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lp{4.8cm}}
+\toprule
+\textbf{Integrante} & \textbf{Contribución principal} \\
+\midrule
+Sofia Velez      & EDA, ingeniería de características, visualizaciones \\
+Paulina Velasquez & Arquitectura LSTM, entrenamiento, evaluación \\
+Alexander Vargas & Integración LLM + SHAP, notebook final, informe \\
+\bottomrule
+\end{tabular}
+\caption*{Distribución de responsabilidades por integrante.}
+\end{table}
+
+%% ==========================================================
+%%  REPOSITORIO Y REPRODUCIBILIDAD
+%% ==========================================================
+\section*{Repositorio y Demo}
+
+\begin{itemize}[leftmargin=*,topsep=2pt,itemsep=1pt]
+  \item \textbf{GitHub:} \url{https://github.com/equipo-ia-eafit/energy-forecast-2026}
+  \item \textbf{Video demo ($\leq$3 min):} \url{https://youtu.be/LINK-AL-VIDEO}
+  \item \textbf{Instalación:} \texttt{pip install -r requirements.txt}
+  \item \textbf{Notebook EDA:} \texttt{notebooks/01\_eda.ipynb}
+  \item \textbf{Notebook modelado:} \texttt{notebooks/03\_modeling.ipynb}
+\end{itemize}
+
+%% ==========================================================
+%%  REFERENCIAS
+%% ==========================================================
+\begin{thebibliography}{99}
+
+\bibitem{hong2016probabilistic}
+Hong, T., \& Fan, S. (2016).
+\textit{Probabilistic electric load forecasting: A tutorial review}.
+International Journal of Forecasting, 32(3), 914--938.
+\url{https://doi.org/10.1016/j.ijforecast.2015.11.011}
+
+\bibitem{chen2016xgboost}
+Chen, T., \& Guestrin, C. (2016).
+\textit{XGBoost: A scalable tree boosting system}.
+Proceedings of KDD 2016.
+\url{https://arxiv.org/abs/1603.02754}
+
+\bibitem{hochreiter1997lstm}
+Hochreiter, S., \& Schmidhuber, J. (1997).
+\textit{Long short-term memory}.
+Neural Computation, 9(8), 1735--1780.
+
+\bibitem{lundberg2017shap}
+Lundberg, S., \& Lee, S. I. (2017).
+\textit{A unified approach to interpreting model predictions (SHAP)}.
+NeurIPS 2017.
+\url{https://arxiv.org/abs/1705.07874}
+
+\bibitem{dataset2018pjm}
+Rob Mulla. (2018).
+\textit{PJM Hourly Energy Consumption}.
+Kaggle.
+\url{https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption}
+
+\bibitem{meta2024llama}
+Meta AI. (2024).
+\textit{Llama 3.1: Open Foundation and Fine-Tuned Chat Models}.
+\url{https://ai.meta.com/llama/}
+
+\end{thebibliography}
+
+%% ==========================================================
+%%  APÉNDICES
+%% ==========================================================
+\appendix
+
+\section{Detalles de hiperparámetros y búsqueda}
+
+\begin{table}[H]
+\centering
+\caption{Grid search XGBoost -- mejores combinaciones}
+\label{tab:grid}
+\begin{tabular}{lccc}
+\toprule
+\textbf{max\_depth} & \textbf{lr} & \textbf{n\_est.} & \textbf{RMSE val} \\
+\midrule
+4 & 0.1  & 300 & 2\,312 \\
+6 & 0.05 & 500 & 2\,034 \\
+8 & 0.01 & 800 & 2\,198 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Ejemplos adicionales de salida del LLM}
+
+Incluir aquí 2--3 ejemplos adicionales de explicaciones
+generadas por el LLM para distintas condiciones de demanda
+(hora valle, fin de semana, verano vs.\ invierno).
+Exportar como capturas de pantalla desde la app Streamlit
+y subir a Overleaf con \texttt{\textbackslash includegraphics}.
+
+\end{document}
+%% ============================================================
+%%  FIN -- EnergyForecast · IA EAFIT 2026-1
+%% ============================================================

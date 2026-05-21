@@ -1,0 +1,32 @@
+# ── EnergyForecast — IA EAFIT 2026-1 ─────────────────────────────────────────
+# Instalar con: pip install -r requirements.txt
+
+# ── Datos y análisis ──────────────────────────────────────────────────────────
+pandas==2.2.2
+numpy==1.26.4
+scipy==1.13.0
+
+# ── Visualización ─────────────────────────────────────────────────────────────
+matplotlib==3.9.0
+seaborn==0.13.2
+
+# ── Machine Learning ──────────────────────────────────────────────────────────
+scikit-learn==1.5.0
+xgboost==2.0.3
+joblib==1.4.2
+
+# ── Explicabilidad ────────────────────────────────────────────────────────────
+shap==0.45.1
+
+# ── Deep Learning ─────────────────────────────────────────────────────────────
+torch==2.3.0          # CPU por defecto; en Colab con GPU se instala automático
+# torch==2.3.0+cu121  # Descomentar para GPU CUDA 12.1 (Colab)
+
+# ── LLM / API ─────────────────────────────────────────────────────────────────
+groq==0.9.0
+
+# ── Series de tiempo ──────────────────────────────────────────────────────────
+statsmodels==0.14.2
+
+# ── Demo (opcional) ───────────────────────────────────────────────────────────
+streamlit==1.35.0
