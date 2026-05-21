@@ -1,4 +1,4 @@
-# ⚡ EnergyForecast — Predicción de Consumo Eléctrico con ML + LLM
+#  EnergyForecast — Predicción de Consumo Eléctrico con ML + LLM
 
 > **Proyecto Final · Inteligencia Artificial · EAFIT 2026-1**
 
@@ -18,7 +18,7 @@ El LSTM supera al baseline en **41% en RMSE** y logra MAPE de **3.8%** (objetivo
 
 ---
 
-## 📁 Estructura del repositorio
+##  Estructura del repositorio
 
 ```
 energy-forecast/
@@ -43,7 +43,7 @@ energy-forecast/
 
 ---
 
-## 🚀 Instalación y ejecución
+##  Instalación y ejecución
 
 ### 1. Clonar el repositorio
 ```bash
@@ -78,7 +78,7 @@ streamlit run app/main.py
 
 ---
 
-## 🔑 API Key de Groq (gratuita)
+##  API Key de Groq (gratuita)
 
 1. Regístrate en https://console.groq.com
 2. Ve a **API Keys → Create Key**
@@ -89,7 +89,7 @@ streamlit run app/main.py
 
 ---
 
-## 🏗️ Stack tecnológico
+##  Stack tecnológico
 
 | Componente | Tecnología |
 |---|---|
@@ -105,12 +105,12 @@ streamlit run app/main.py
 
 ---
 
-## 👥 Equipo
+##  Equipo
 
 | Integrante | Correo | Contribución |
 |---|---|---|
-| Sofia Velez | svelez@eafit.edu.co | EDA, feature engineering, visualizaciones |
-| Paulina Velasquez | pvelasquez@eafit.edu.co | Arquitectura LSTM, entrenamiento, evaluación |
+| Sofia Velez | Svelezr10@eafit.edu.co | EDA, feature engineering, visualizaciones |
+| Paulina Velasquez | pvelasquel@eafit.edu.co | Arquitectura LSTM, entrenamiento, evaluación |
 | Alexander Vargas | avargas@eafit.edu.co | LLM + SHAP, integración, informe |
 
 ---
