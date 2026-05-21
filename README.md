@@ -111,7 +111,7 @@ streamlit run app/main.py
 |---|---|---|
 | Sofia Velez | Svelezr10@eafit.edu.co | EDA, feature engineering, visualizaciones |
 | Paulina Velasquez | pvelasquel@eafit.edu.co | Arquitectura LSTM, entrenamiento, evaluación |
-| Alexander Vargas | avargas@eafit.edu.co | LLM + SHAP, integración, informe |
+| Alexander Vargas | avargasa2@eafit.edu.co | LLM + SHAP, integración, informe |
 
 ---
 
