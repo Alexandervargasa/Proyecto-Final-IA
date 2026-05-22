@@ -57,13 +57,14 @@ st.markdown("""
         margin: 0.3rem 0;
     }
     .explanation-box {
-        background: #e8f4f8;
-        border: 1px solid #003d79;
-        border-radius: 8px;
-        padding: 1rem 1.2rem;
-        font-size: 1.05rem;
-        line-height: 1.6;
-    }
+    background: #e8f4f8;
+    border: 1px solid #003d79;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #1a1a2e !important;
+}
     .shap-positive { color: #c0392b; font-weight: bold; }
     .shap-negative { color: #27ae60; font-weight: bold; }
 </style>
