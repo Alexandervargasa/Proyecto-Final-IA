@@ -115,13 +115,13 @@ streamlit run app/main.py
 
 ---
 
-## 🎥 Video demo
+##  Video demo
 
-📹 **[Ver demo en YouTube](https://youtu.be/LINK-AL-VIDEO)** (≤ 3 minutos)
+ **[Ver demo en YouTube](https://youtu.be/LINK-AL-VIDEO)** (≤ 3 minutos)
 
 ---
 
-## 📄 Informe
+##  Informe
 
 El informe completo en PDF está en [`docs/informe_final.pdf`](docs/informe_final.pdf), generado con la plantilla LaTeX de EAFIT en Overleaf.
 
