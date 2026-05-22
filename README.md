@@ -127,6 +127,10 @@ El informe completo en PDF está en [`docs/informe_final.pdf`](docs/informe_fina
 
 ---
 
+## Manual de Usuario
+
+El manual de usuario completo en PDF esta en [`docs/manual_usuario_EnergyForecast.pdf`](docs/manual_usuario_EnergyForecast.pdf)
+
 ## 📚 Referencias principales
 
 - Hong & Fan (2016). Probabilistic electric load forecasting. *IJF*.
