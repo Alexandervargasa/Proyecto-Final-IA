@@ -2,4 +2,5 @@ venv/
 .venv/
 env/
 .env/
-data/processed/
+data/processed/*
+!data/processed/.gitkeep
